@@ -38,7 +38,7 @@ public class RuleSimulator {
                 "SELECT\n" +
                 "count(1)\n" +
                 "FROM momo_detail\n" +
-                "where eventId = 'C' and properties['p3']='v1' and properties['p5']='v2' and deviceId = ? and timeStamp BETWEEN " + startTime + " and " + endTime;
+                "where eventId = 'C' and properties['p3']='v1' and properties['p5']='v2' and deviceId = ? and timeStamp BETWEEN ? and ? ";
         // 这里我们比较简单，只有一组条件，就是C事件，但还是用list存放
         EventParam eventParam1 = new EventParam("C", map3, 1, startTime, endTime, sql);
         ruleConditions.setActionCountConditions(Arrays.asList(eventParam1));

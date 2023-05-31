@@ -17,10 +17,12 @@ public class CkQueryServiceImpl implements QueryService {
     }
 
     // 查次数 传入deviceId，和要查的事件（外层逻辑已经取出来了，这里就只传入一个EventParam）
-    public long getEventCount(String deviceId, EventParam eventParam) throws SQLException {
+    public long getEventCount(String deviceId, EventParam eventParam, long queryStart, long queryEnd) throws SQLException {
         String querySql = eventParam.getQuerySql();
         PreparedStatement preparedStatement = ckConn.prepareStatement(querySql);
         preparedStatement.setString(1, deviceId);
+        preparedStatement.setLong(2, queryStart);
+        preparedStatement.setLong(3, queryEnd);
         ResultSet resultSet = preparedStatement.executeQuery();
         long result = 0;
         while (resultSet.next()) {

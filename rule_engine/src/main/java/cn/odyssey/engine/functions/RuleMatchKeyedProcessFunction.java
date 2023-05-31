@@ -11,6 +11,8 @@ import cn.odyssey.router.SimpleQueryRouter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.api.common.state.ListStateDescriptor;
+import org.apache.flink.api.common.state.StateTtlConfig;
+import org.apache.flink.api.common.time.Time;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
@@ -28,7 +30,7 @@ public class RuleMatchKeyedProcessFunction extends KeyedProcessFunction<String, 
     @Override
     public void open(Configuration parameters) throws Exception {
         simpleQueryRouter = new SimpleQueryRouter();
-        beansState = getRuntimeContext().getListState(StateDescContainer.logBeansDesc);
+        beansState = getRuntimeContext().getListState(StateDescContainer.getLogBeansDesc());
     }
 
     @Override

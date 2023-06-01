@@ -17,7 +17,7 @@ public class MarketingRule {
     private String ruleId;
 
     // 触发事件
-    private EventCondition triggerEvent;
+    private EventCondition triggerEventCondition;
 
     // 用户画像属性条件
     private Map<String, String> userProfileConditions;

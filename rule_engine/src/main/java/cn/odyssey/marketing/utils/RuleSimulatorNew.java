@@ -7,7 +7,6 @@ import cn.odyssey.marketing.beans.MarketingRule;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RuleSimulatorNew {
@@ -19,11 +18,11 @@ public class RuleSimulatorNew {
         Map<String, String> map1 = new HashMap<>();
         map1.put("p2", "v1");
         EventCondition triggerEvent = new EventCondition("K", map1, -1, Long.MAX_VALUE, 1, 999);
-        ruleConditions.setTriggerEvent(triggerEvent);
+        ruleConditions.setTriggerEventCondition(triggerEvent);
 
         // 用户画像条件 map
         Map<String, String> map2 = new HashMap<>();
-        map2.put("tag87", "v2");
+//        map2.put("tag87", "v2");
         map2.put("tag26", "v1");
         ruleConditions.setUserProfileConditions(map2);
 

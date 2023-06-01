@@ -11,6 +11,7 @@ public class ConfigNames {
 
     public static final String HBASE_ZK_QUORUM = "hbase.zookeeper.quorum";
     public static final String HBASE_PROFILE_TABLE = "hbase.profile.table";
+    public static final String HBASE_PROFILE_FAMILY = "hbase.profile.family";
 
     public static final String REDIS_HOST = "redis.host";
     public static final String REDIS_PORT = "redis.port";

@@ -36,7 +36,7 @@ public class ActionLogGenAuto {
                         ProducerRecord<String, String> record = new ProducerRecord<>(topic, value);
                         producer.send(record);
                         try {
-                            Thread.sleep(RandomUtils.nextInt(500, 600));
+                            Thread.sleep(RandomUtils.nextInt(5000, 6000));
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }

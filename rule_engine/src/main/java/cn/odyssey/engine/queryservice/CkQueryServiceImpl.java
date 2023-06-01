@@ -1,7 +1,7 @@
 package cn.odyssey.engine.queryservice;
 
-import cn.odyssey.beans.EventParam;
-import cn.odyssey.beans.EventSequenceParam;
+import cn.odyssey.engine.beans.EventParam;
+import cn.odyssey.engine.beans.EventSequenceParam;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,12 +32,12 @@ public class CkQueryServiceImpl implements QueryService {
     }
 
     // 查最多完成了几步 传入deviceId，和要查的行为序列条件（一个）
-    public int queryEventSeqMaxStep(String deviceId, EventSequenceParam eventSequenceParam) throws SQLException {
+    public int queryEventSeqMaxStep(String deviceId, EventSequenceParam eventSequenceParam, long queryStart, long queryEnd) throws SQLException {
         String sequenceQuerySql = eventSequenceParam.getSequenceQuerySql();
         PreparedStatement preparedStatement = ckConn.prepareStatement(sequenceQuerySql);
         preparedStatement.setString(1, deviceId);
-        preparedStatement.setLong(2, eventSequenceParam.getTimeRangeStart());
-        preparedStatement.setLong(3, eventSequenceParam.getTimeRangeEnd());
+        preparedStatement.setLong(2, queryStart);
+        preparedStatement.setLong(3, queryEnd);
         ResultSet resultSet = preparedStatement.getResultSet();
         int maxStep = 0;
         while (resultSet.next()) {

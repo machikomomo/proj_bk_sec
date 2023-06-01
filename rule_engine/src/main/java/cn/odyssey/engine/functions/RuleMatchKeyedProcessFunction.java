@@ -1,25 +1,15 @@
 package cn.odyssey.engine.functions;
 
-import cn.odyssey.beans.*;
-import cn.odyssey.engine.queryservice.CkQueryServiceImpl;
-import cn.odyssey.engine.queryservice.HbaseQueryServiceImpl;
-import cn.odyssey.engine.utils.ConnectionUtils;
-import cn.odyssey.engine.utils.EventCompare;
+import cn.odyssey.engine.beans.*;
 import cn.odyssey.engine.utils.RuleSimulator;
 import cn.odyssey.engine.utils.StateDescContainer;
-import cn.odyssey.router.SimpleQueryRouter;
+import cn.odyssey.engine.router.NearFarSegmentQueryRouter;
+import cn.odyssey.engine.router.SimpleQueryRouter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.state.ListState;
-import org.apache.flink.api.common.state.ListStateDescriptor;
-import org.apache.flink.api.common.state.StateTtlConfig;
-import org.apache.flink.api.common.time.Time;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
-import org.apache.hadoop.hbase.client.Connection;
-
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 public class RuleMatchKeyedProcessFunction extends KeyedProcessFunction<String, LogBean, RuleMatchResult> {
@@ -31,6 +21,7 @@ public class RuleMatchKeyedProcessFunction extends KeyedProcessFunction<String, 
     public void open(Configuration parameters) throws Exception {
         simpleQueryRouter = new SimpleQueryRouter();
         beansState = getRuntimeContext().getListState(StateDescContainer.getLogBeansDesc());
+        NearFarSegmentQueryRouter nearFarSegmentQueryRouter = new NearFarSegmentQueryRouter(beansState);
     }
 
     @Override

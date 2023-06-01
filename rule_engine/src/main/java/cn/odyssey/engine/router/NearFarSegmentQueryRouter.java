@@ -1,11 +1,12 @@
-package cn.odyssey.router;
+package cn.odyssey.engine.router;
 
-import cn.odyssey.beans.EventParam;
-import cn.odyssey.beans.EventSequenceParam;
-import cn.odyssey.beans.LogBean;
-import cn.odyssey.beans.RuleConditions;
+import cn.odyssey.engine.beans.EventParam;
+import cn.odyssey.engine.beans.EventSequenceParam;
+import cn.odyssey.engine.beans.LogBean;
+import cn.odyssey.engine.beans.RuleConditions;
 import cn.odyssey.engine.queryservice.CkQueryServiceImpl;
 import cn.odyssey.engine.queryservice.HbaseQueryServiceImpl;
+import cn.odyssey.engine.queryservice.StateQueryServiceImpl;
 import cn.odyssey.engine.utils.ConnectionUtils;
 import cn.odyssey.engine.utils.EventCompare;
 import cn.odyssey.engine.utils.SegmentQueryUtil;
@@ -25,12 +26,14 @@ public class NearFarSegmentQueryRouter {
     java.sql.Connection ckConn;
     HbaseQueryServiceImpl hbaseQueryService;
     CkQueryServiceImpl ckQueryService;
+    StateQueryServiceImpl stateQueryService;
 
-    public NearFarSegmentQueryRouter() throws Exception {
+    public NearFarSegmentQueryRouter(ListState<LogBean> listState) throws Exception {
         hbaseConn = ConnectionUtils.getHbaseConn();
         hbaseQueryService = new HbaseQueryServiceImpl(hbaseConn);
         ckConn = ConnectionUtils.getCkConn();
         ckQueryService = new CkQueryServiceImpl(ckConn);
+        stateQueryService = new StateQueryServiceImpl(listState);
     }
 
     public boolean ruleMatch(RuleConditions rule, LogBean logBean, ListState<LogBean> beansState) throws Exception {
@@ -64,13 +67,13 @@ public class NearFarSegmentQueryRouter {
                     // 全在左
                     long queryCnt = ckQueryService.getEventCount(logBean.getDeviceId(), actionCountCondition, actionCountCondition.getTimeRangeStart(), actionCountCondition.getTimeRangeEnd());
                     if (queryCnt < ruleCnt) return false;
-                } else if (actionCountCondition.getTimeRangeStart() >= segmentPoint) {
 
+                } else if (actionCountCondition.getTimeRangeStart() >= segmentPoint) {
                     // 全在右
                     long stateQueryCount = stateQueryActionCount(beansState, actionCountCondition, actionCountCondition.getTimeRangeStart(), actionCountCondition.getTimeRangeEnd());
                     if (stateQueryCount < ruleCnt) return false;
-                } else {
 
+                } else {
                     // 跨界 注意：先查状态，如果状态满足了就不再查clickhouse了。注意查状态时起始时间变成segmentPoint
                     long stateQueryCount = stateQueryActionCount(beansState, actionCountCondition, segmentPoint, actionCountCondition.getTimeRangeEnd());
                     if (stateQueryCount < ruleCnt) {
@@ -89,23 +92,33 @@ public class NearFarSegmentQueryRouter {
         if (actionSequenceConditions != null & actionSequenceConditions.size() > 0) {
             // 对每个序列条件都去查
             for (EventSequenceParam actionSequenceCondition : actionSequenceConditions) {
-
+                int nowSeqSize = actionSequenceCondition.getEventSequence().size();  // 当前序列条件包含的event，即需要完成的事件总数
                 if (actionSequenceCondition.getTimeRangeEnd() < segmentPoint) {
                     // 全在左 只查ck
-                    int maxStep = ckQueryService.queryEventSeqMaxStep(logBean.getDeviceId(), actionSequenceCondition); // 查到的最多完成了几步
-                    int nowSeqSize = actionSequenceCondition.getEventSequence().size();  // 当前序列条件包含的event，即需要完成的事件总数
+                    int maxStep = ckQueryService.queryEventSeqMaxStep(logBean.getDeviceId(), actionSequenceCondition, actionSequenceCondition.getTimeRangeStart(), actionSequenceCondition.getTimeRangeEnd()); // 查到的最多完成了几步
                     if (maxStep < nowSeqSize) {
                         return false;
                     }
                 } else if (actionSequenceCondition.getTimeRangeStart() >= segmentPoint) {
                     // 全在右 只查状态
-
-
+                    int stateQuerySteps = stateQueryService.queryEventSequence(actionSequenceCondition.getEventSequence(), actionSequenceCondition.getTimeRangeStart(), actionSequenceCondition.getTimeRangeEnd());
+                    if (stateQuerySteps < nowSeqSize) {
+                        return false;
+                    }
                 } else {
-                    // 跨时区 先查状态 再查ck
-
+                    // 跨时区 先查ck 再查状态
+                    int ckSeqSteps = ckQueryService.queryEventSeqMaxStep(logBean.getDeviceId(), actionSequenceCondition, actionSequenceCondition.getTimeRangeStart(), segmentPoint);
+                    // 如果够了就不继续查了 不够继续查
+                    if (ckSeqSteps < nowSeqSize) {
+                        // 截断得到新的EventSequenceParam
+                        List<EventParam> fullEventSequence = actionSequenceCondition.getEventSequence();
+                        List<EventParam> trimmedEventSequence = fullEventSequence.subList(ckSeqSteps, fullEventSequence.size());
+                        int stateQuerySteps = stateQueryService.queryEventSequence(trimmedEventSequence, segmentPoint, actionSequenceCondition.getTimeRangeEnd());
+                        if ((ckSeqSteps + stateQuerySteps) < nowSeqSize) {
+                            return false;
+                        }
+                    }
                 }
-
                 log.debug("当前deviceId满足了指定的行为序列条件，要求执行序列{}", actionSequenceCondition);
             }
         }

@@ -1,6 +1,6 @@
 package cn.odyssey.datagen;
 
-import cn.odyssey.beans.LogBean;
+import cn.odyssey.engine.beans.LogBean;
 import cn.odyssey.engine.utils.ConfigNames;
 import com.alibaba.fastjson.JSON;
 import com.typesafe.config.Config;
@@ -14,6 +14,9 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import java.util.HashMap;
 import java.util.Properties;
 
+/**
+ * kafka_topic 为 detail_action_log，同步数据存储到clickhouse的表 momo_detail
+ */
 public class ActionLogGenAuto {
     public static void main(String[] args) {
         Config config = ConfigFactory.load();

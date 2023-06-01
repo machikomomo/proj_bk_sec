@@ -1,7 +1,7 @@
 package cn.odyssey.engine.utils;
 
-import cn.odyssey.beans.EventParam;
-import cn.odyssey.beans.LogBean;
+import cn.odyssey.engine.beans.EventParam;
+import cn.odyssey.engine.beans.LogBean;
 
 import java.util.Map;
 

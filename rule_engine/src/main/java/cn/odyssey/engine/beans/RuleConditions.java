@@ -1,4 +1,4 @@
-package cn.odyssey.beans;
+package cn.odyssey.engine.beans;
 
 import lombok.Data;
 

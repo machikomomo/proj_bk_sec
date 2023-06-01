@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * 用户画像数据 表名 momo_profile_tb
  * 用户画像数据有10w条，即10w个rowKey，每个用户有100个tag，每个tag的值为v1或v2
  *  000009 column=f:tag70, timestamp=1685427243661, value=v2
  */

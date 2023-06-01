@@ -1,10 +1,13 @@
-package cn.odyssey.engine.entry;
+package cn.odyssey.marketing.main;
 
-import cn.odyssey.engine.beans.LogBean;
-import cn.odyssey.engine.beans.RuleMatchResult;
-import cn.odyssey.engine.functions.KafkaSourceBuilder;
-import cn.odyssey.engine.functions.RuleMatchKeyedProcessFunction;
+import cn.odyssey.marketing.beans.LogBean;
+import cn.odyssey.marketing.beans.RuleMatchResult;
+import cn.odyssey.marketing.functions.KafkaSourceBuilder;
+import cn.odyssey.marketing.functions.RuleMatchKeyedProcessFunction;
+import cn.odyssey.marketing.utils.ConfigNames;
 import com.alibaba.fastjson.JSON;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.configuration.Configuration;
@@ -13,20 +16,15 @@ import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
-/**
- * 需求：获得用户事件，判断如下需求，返回结果
- * 触发条件：K事件 事件属性（p2=v1）
- * 画像属性条件：  tag87=v2 , tag26=v1
- * 行为次数条件：  2021-6-18 ～ 当前 事件C（p6=v8，p12=v5）做过>=2次
- */
 public class Main {
     public static void main(String[] args) throws Exception {
+        Config config = ConfigFactory.load();
         Configuration configuration = new Configuration();
         StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(configuration);
         env.setParallelism(1);
 
         // 读取kafka中的用户行为日志
-        String topic = "detail_action_log";
+        String topic = config.getString(ConfigNames.KAFKA_ACTION_DETAIL_TOPIC);
         DataStreamSource<String> dss = env.addSource(new KafkaSourceBuilder().build(topic));
 
         // 把string转为logBean流

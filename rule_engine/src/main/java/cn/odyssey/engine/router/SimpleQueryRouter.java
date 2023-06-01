@@ -1,9 +1,9 @@
-package cn.odyssey.router;
+package cn.odyssey.engine.router;
 
-import cn.odyssey.beans.EventParam;
-import cn.odyssey.beans.EventSequenceParam;
-import cn.odyssey.beans.LogBean;
-import cn.odyssey.beans.RuleConditions;
+import cn.odyssey.engine.beans.EventParam;
+import cn.odyssey.engine.beans.EventSequenceParam;
+import cn.odyssey.engine.beans.LogBean;
+import cn.odyssey.engine.beans.RuleConditions;
 import cn.odyssey.engine.queryservice.CkQueryServiceImpl;
 import cn.odyssey.engine.queryservice.HbaseQueryServiceImpl;
 import cn.odyssey.engine.utils.ConnectionUtils;
@@ -11,7 +11,6 @@ import cn.odyssey.engine.utils.EventCompare;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hadoop.hbase.client.Connection;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +50,7 @@ public class SimpleQueryRouter {
         if (actionCountConditions != null && actionCountConditions.size() > 0) {
             for (EventParam actionCountCondition : actionCountConditions) {
                 // 每个条件依次查（实际我只放了一个条件）
-                long queryCnt = ckQueryService.getEventCount(logBean.getDeviceId(), actionCountCondition);
+                long queryCnt = ckQueryService.getEventCount(logBean.getDeviceId(), actionCountCondition, actionCountCondition.getTimeRangeStart(), actionCountCondition.getTimeRangeEnd());
                 int ruleCnt = actionCountCondition.getCountThreshold();
                 if (queryCnt < ruleCnt) {
                     return false;
@@ -66,7 +65,7 @@ public class SimpleQueryRouter {
         if (actionSequenceConditions != null & actionSequenceConditions.size() > 0) {
             // 对每个序列条件都去查
             for (EventSequenceParam actionSequenceCondition : actionSequenceConditions) {
-                int maxStep = ckQueryService.queryEventSeqMaxStep(logBean.getDeviceId(), actionSequenceCondition); // 查到的最多完成了几步
+                int maxStep = ckQueryService.queryEventSeqMaxStep(logBean.getDeviceId(), actionSequenceCondition, actionSequenceCondition.getTimeRangeStart(), actionSequenceCondition.getTimeRangeEnd()); // 查到的最多完成了几步
                 int nowSeqSize = actionSequenceCondition.getEventSequence().size();  // 当前序列条件包含的event，即需要完成的事件总数
                 if (maxStep < nowSeqSize) {
                     return false;

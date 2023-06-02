@@ -29,6 +29,9 @@ public class MarketingRule {
     private int matchLimit;
 
     // 是否要注册timer
-    private boolean isOnTimer;
+    private boolean onTimer;
+
+    // 定时器时长条件
+    private List<TimerCondition> timerConditionList;
 
 }

@@ -8,6 +8,8 @@ import cn.odyssey.marketing.utils.ConfigNames;
 import com.alibaba.fastjson.JSON;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.configuration.Configuration;
@@ -15,6 +17,8 @@ import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+
+import java.time.Duration;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -35,8 +39,18 @@ public class Main {
             }
         });
 
+        // 添加事件时间分配
+        WatermarkStrategy<LogBean> logBeanWatermarkStrategy = WatermarkStrategy.<LogBean>forBoundedOutOfOrderness(Duration.ofMillis(0)).withTimestampAssigner(new SerializableTimestampAssigner<LogBean>() {
+            @Override
+            public long extractTimestamp(LogBean logBean, long l) {
+                return logBean.getTimeStamp();
+            }
+        });
+
+        SingleOutputStreamOperator<LogBean> withWatermarkAndTimestamp = beanSS.assignTimestampsAndWatermarks(logBeanWatermarkStrategy);
+
         // keyBy deviceId
-        KeyedStream<LogBean, String> keyed = beanSS.keyBy(new KeySelector<LogBean, String>() {
+        KeyedStream<LogBean, String> keyed = withWatermarkAndTimestamp.keyBy(new KeySelector<LogBean, String>() {
             @Override
             public String getKey(LogBean logBean) throws Exception {
                 return logBean.getDeviceId();

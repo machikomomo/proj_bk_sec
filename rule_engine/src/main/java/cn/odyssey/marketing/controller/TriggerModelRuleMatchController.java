@@ -1,9 +1,6 @@
 package cn.odyssey.marketing.controller;
 
-import cn.odyssey.marketing.beans.EventCombinationCondition;
-import cn.odyssey.marketing.beans.EventCondition;
-import cn.odyssey.marketing.beans.LogBean;
-import cn.odyssey.marketing.beans.MarketingRule;
+import cn.odyssey.marketing.beans.*;
 import cn.odyssey.marketing.service.TriggerModelRuleMatchServiceImpl;
 import cn.odyssey.marketing.utils.EventUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -71,5 +68,30 @@ public class TriggerModelRuleMatchController {
 
         return true;
 
+    }
+
+    /**
+     * 只检查定时条件是否满足
+     *
+     * @param deviceId
+     * @param timerCondition
+     * @param queryTimeStart
+     * @param queryTimeEnd
+     * @return
+     */
+    public boolean isMatchTimeCondition(String deviceId, TimerCondition timerCondition, long queryTimeStart, long queryTimeEnd) throws Exception {
+        List<EventCombinationCondition> eventCombinationConditionList = timerCondition.getEventCombinationConditionList();
+        for (EventCombinationCondition eventCombinationCondition : eventCombinationConditionList) {
+            eventCombinationCondition.setTimeRangeStart(queryTimeStart);
+            eventCombinationCondition.setTimeRangeEnd(queryTimeEnd);
+            LogBean logBean = new LogBean();
+            logBean.setDeviceId(deviceId);
+            logBean.setTimeStamp(queryTimeEnd);// 时间戳设置为闹钟响起的那个当前时间
+            boolean b = triggerModelRuleMatchService.matchEventCombinationCondition(eventCombinationCondition, logBean);
+            if (!b) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -11,7 +11,7 @@ import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.api.java.tuple.Tuple2;
 
 /**
- * 构造各种状态描述器（我这就一个）
+ * 构造各种状态描述器 ListStateDescriptor
  */
 public class StateDescContainer {
     public static ListStateDescriptor<LogBean> getLogBeansDesc() {

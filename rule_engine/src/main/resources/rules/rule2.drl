@@ -1,0 +1,20 @@
+package cn.odyssey.drools.demo
+import cn.odyssey.demo.Student
+import cn.odyssey.demo.Teacher
+
+// 定义本规则的名称
+rule "rule2"
+
+// 匹配条件 LHS
+
+// Person 对象 昵称jack 有只猫
+when
+    $s:Student()
+    $t:Teacher()
+
+// 要执行的逻辑 RHS
+then
+
+    int age = $s.getAge()+ $t.getAge();
+    $s.setAge(age);
+end

@@ -1,9 +1,10 @@
-package cn.odyssey.marketing.utils;
+package cn.odyssey.dynamic.utils;
 
 
-import cn.odyssey.marketing.beans.EventCombinationCondition;
-import cn.odyssey.marketing.beans.EventCondition;
-import cn.odyssey.marketing.beans.MarketingRule;
+import cn.odyssey.dynamic.beans.EventCombinationCondition;
+import cn.odyssey.dynamic.beans.EventCondition;
+import cn.odyssey.dynamic.beans.MarketingRule;
+import com.alibaba.fastjson.JSON;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class RuleSimulatorNew {
 
         // 用户画像条件 map
         Map<String, String> map2 = new HashMap<>();
-//        map2.put("tag87", "v2");
+        map2.put("tag87", "v2");
         map2.put("tag26", "v1");
         ruleConditions.setUserProfileConditions(map2);
 
@@ -84,27 +85,29 @@ public class RuleSimulatorNew {
 
     public static void main(String[] args) {
         MarketingRule rule = getRule();
-        String ruleId = rule.getRuleId();
-        System.out.println(ruleId); // rule_001
-        EventCondition triggerEventCondition = rule.getTriggerEventCondition();
-        System.out.println(triggerEventCondition); // EventCondition(eventId=K, eventProps={p2=v1}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999)
-        Map<String, String> userProfileConditions = rule.getUserProfileConditions();
-        System.out.println(userProfileConditions); // {tag26=v1}
-        List<EventCombinationCondition> eventCombinationConditions = rule.getEventCombinationConditions();
-        System.out.println(eventCombinationConditions.size()); // 2
-        EventCombinationCondition e1 = eventCombinationConditions.get(0);
-        List<EventCondition> e1Concerned = e1.getEventConditionList(); // [EventCondition(eventId=C, eventProps={}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999)]
-        String r1 = e1.getMatchPattern(); // (1)
-        String sql1 = e1.getQuerySql();
-        System.out.println(e1Concerned);
-        System.out.println(r1);
-        System.out.println(sql1);
-        EventCombinationCondition e2 = eventCombinationConditions.get(1);
-        List<EventCondition> e2Concerned = e2.getEventConditionList(); // [EventCondition(eventId=A, eventProps={}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999), EventCondition(eventId=C, eventProps={}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999), EventCondition(eventId=F, eventProps={}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999)]
-        String r2 = e2.getMatchPattern(); // (1.*2.*3)
-        String sql2 = e2.getQuerySql();
-        System.out.println(e2Concerned);
-        System.out.println(r2);
-        System.out.println(sql2);
+//        String ruleId = rule.getRuleId();
+//        System.out.println(ruleId); // rule_001
+//        EventCondition triggerEventCondition = rule.getTriggerEventCondition();
+//        System.out.println(triggerEventCondition); // EventCondition(eventId=K, eventProps={p2=v1}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999)
+//        Map<String, String> userProfileConditions = rule.getUserProfileConditions();
+//        System.out.println(userProfileConditions); // {tag26=v1}
+//        List<EventCombinationCondition> eventCombinationConditions = rule.getEventCombinationConditions();
+//        System.out.println(eventCombinationConditions.size()); // 2
+//        EventCombinationCondition e1 = eventCombinationConditions.get(0);
+//        List<EventCondition> e1Concerned = e1.getEventConditionList(); // [EventCondition(eventId=C, eventProps={}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999)]
+//        String r1 = e1.getMatchPattern(); // (1)
+//        String sql1 = e1.getQuerySql();
+//        System.out.println(e1Concerned);
+//        System.out.println(r1);
+//        System.out.println(sql1);
+//        EventCombinationCondition e2 = eventCombinationConditions.get(1);
+//        List<EventCondition> e2Concerned = e2.getEventConditionList(); // [EventCondition(eventId=A, eventProps={}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999), EventCondition(eventId=C, eventProps={}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999), EventCondition(eventId=F, eventProps={}, timeRangeStart=-1, timeRangeEnd=9223372036854775807, minLimit=1, maxLimit=999)]
+//        String r2 = e2.getMatchPattern(); // (1.*2.*3)
+//        String sql2 = e2.getQuerySql();
+//        System.out.println(e2Concerned);
+//        System.out.println(r2);
+//        System.out.println(sql2);
+        String s = JSON.toJSONString(rule);
+        System.out.println(s);
     }
 }

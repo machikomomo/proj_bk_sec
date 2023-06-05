@@ -1,0 +1,17 @@
+package rules;
+import cn.odyssey.demo.flink_drools.DataBean
+import org.apache.commons.lang3.StringUtils
+
+rule "demo2"
+no-loop true
+
+    when
+        $b:DataBean()
+    then
+        String data = $b.getData();
+        if (data.startsWith("a")){
+            $b.setRes(data+" how are you?");
+        }else {
+            $b.setRes(data+" how old are you?");
+        }
+end

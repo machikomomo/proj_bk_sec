@@ -1,5 +1,6 @@
-package cn.odyssey.marketing.beans;
+package cn.odyssey.dynamic.beans;
 
+import cn.odyssey.dynamic.beans.EventCondition;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package cn.odyssey.marketing.beans;
+package cn.odyssey.dynamic.beans;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

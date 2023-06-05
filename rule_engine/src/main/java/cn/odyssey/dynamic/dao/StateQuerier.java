@@ -1,9 +1,9 @@
-package cn.odyssey.marketing.dao;
+package cn.odyssey.dynamic.dao;
 
-import cn.odyssey.marketing.beans.EventCombinationCondition;
-import cn.odyssey.marketing.beans.EventCondition;
-import cn.odyssey.marketing.beans.LogBean;
-import cn.odyssey.marketing.utils.EventUtil;
+import cn.odyssey.dynamic.beans.EventCombinationCondition;
+import cn.odyssey.dynamic.beans.EventCondition;
+import cn.odyssey.dynamic.beans.LogBean;
+import cn.odyssey.dynamic.utils.EventUtil;
 import org.apache.flink.api.common.state.ListState;
 import java.util.List;
 

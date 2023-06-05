@@ -1,9 +1,9 @@
-package cn.odyssey.marketing.dao;
+package cn.odyssey.dynamic.dao;
 
 
-import cn.odyssey.marketing.beans.EventCombinationCondition;
-import cn.odyssey.marketing.beans.EventCondition;
-import cn.odyssey.marketing.utils.EventUtil;
+import cn.odyssey.dynamic.beans.EventCombinationCondition;
+import cn.odyssey.dynamic.beans.EventCondition;
+import cn.odyssey.dynamic.utils.EventUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;

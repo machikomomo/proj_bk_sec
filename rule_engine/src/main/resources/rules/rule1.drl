@@ -1,0 +1,24 @@
+package cn.odyssey.drools.demo
+import cn.odyssey.demo.Person
+import cn.odyssey.demo.Cat
+
+// 定义本规则的名称
+rule "rule1"
+
+// 匹配条件 LHS
+
+// Person 对象 昵称jack 有只猫
+when
+    $p:Person( nickNames contains "jack" && job == "manager")
+
+// 要执行的逻辑 RHS
+then
+
+    System.out.println("hello! "+ $p.getName());
+    if ($p.getAge() > 30) {
+            System.out.println($p.getAge()+" gun!");
+    }
+    $p.setAge(18);
+    System.out.println("how old? "+ $p.getAge());
+
+end

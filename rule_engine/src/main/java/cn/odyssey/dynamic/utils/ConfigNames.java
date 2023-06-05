@@ -1,4 +1,4 @@
-package cn.odyssey.marketing.utils;
+package cn.odyssey.dynamic.utils;
 
 public class ConfigNames {
     public static final String KAFKA_BOOTSTRAP_SERVERS = "kafka.bootstrap.servers";

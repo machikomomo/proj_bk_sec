@@ -1,13 +1,14 @@
-package cn.odyssey.marketing.functions;
+package cn.odyssey.dynamic.functions;
 
-import cn.odyssey.marketing.beans.EventCondition;
-import cn.odyssey.marketing.beans.LogBean;
-import cn.odyssey.marketing.beans.MarketingRule;
-import cn.odyssey.marketing.beans.RuleMatchResult;
-import cn.odyssey.marketing.controller.TriggerModelRuleMatchController;
-import cn.odyssey.marketing.utils.EventUtil;
-import cn.odyssey.marketing.utils.RuleSimulatorNew;
-import cn.odyssey.marketing.utils.StateDescContainer;
+import cn.odyssey.dynamic.beans.EventCondition;
+import cn.odyssey.dynamic.beans.LogBean;
+import cn.odyssey.dynamic.beans.MarketingRule;
+import cn.odyssey.dynamic.beans.RuleMatchResult;
+import cn.odyssey.dynamic.controller.TriggerModelRuleMatchController;
+import cn.odyssey.dynamic.utils.EventUtil;
+import cn.odyssey.dynamic.utils.RuleSimulatorFromJson;
+import cn.odyssey.dynamic.utils.RuleSimulatorNew;
+import cn.odyssey.dynamic.utils.StateDescContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.flink.api.common.state.ListState;
 import org.apache.flink.configuration.Configuration;
@@ -30,6 +31,7 @@ public class RuleMatchKeyedProcessFunction extends KeyedProcessFunction<String, 
         // flink里在open里构造
         MarketingRule rule1 = RuleSimulatorNew.getRule();
 //        ruleList = Arrays.asList(rule1);
+        ruleList = RuleSimulatorFromJson.getRule();
         listState = getRuntimeContext().getListState(StateDescContainer.getLogBeansDesc());
         triggerModelRuleMatchController = new TriggerModelRuleMatchController(listState);
     }

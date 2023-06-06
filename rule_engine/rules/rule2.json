@@ -1,68 +1,67 @@
 {
-	"eventCombinationConditions": [{
-		"cacheId": "001",
-		"eventConditionList": [{
-			"eventId": "C",
-			"eventProps": {},
-			"maxLimit": 999,
-			"minLimit": 1,
-			"timeRangeEnd": 9223372036854775807,
-			"timeRangeStart": -1
-		}],
-		"matchPattern": "(1)",
-		"maxLimit": 999,
-		"minLimit": 1,
-		"querySql": "SELECT\neventId\nfrom momo_detail\nwhere eventId = 'C'\nand deviceId = ? and timeStamp BETWEEN ? and ? ",
-		"sqlType": "ck",
-		"timeRangeEnd": 9223372036854775807,
-		"timeRangeStart": -1
-	}, {
-		"cacheId": "002",
-		"eventConditionList": [{
-			"eventId": "A",
-			"eventProps": {},
-			"maxLimit": 999,
-			"minLimit": 1,
-			"timeRangeEnd": 9223372036854775807,
-			"timeRangeStart": -1
-		}, {
-			"eventId": "C",
-			"eventProps": {},
-			"maxLimit": 999,
-			"minLimit": 1,
-			"timeRangeEnd": 9223372036854775807,
-			"timeRangeStart": -1
-		}, {
-			"eventId": "F",
-			"eventProps": {},
-			"maxLimit": 999,
-			"minLimit": 1,
-			"timeRangeEnd": 9223372036854775807,
-			"timeRangeStart": -1
-		}],
-		"matchPattern": "(1.*2.*3)",
-		"maxLimit": 999,
-		"minLimit": 1,
-		"querySql": "SELECT\neventId\nfrom momo_detail\nwhere deviceId = ?\nand timeStamp BETWEEN ? and ? \nand (\n(eventId = 'A')\nOR\n(eventId = 'C')\nOR\n(eventId = 'F')\n)",
-		"sqlType": "ck",
-		"timeRangeEnd": 9223372036854775807,
-		"timeRangeStart": -1
-	}],
-	"matchLimit": 0,
-	"onTimer": false,
-	"ruleId": "rule_001",
-	"triggerEventCondition": {
-		"eventId": "K",
-		"eventProps": {
-			"p2": "v1"
-		},
-		"maxLimit": 999,
-		"minLimit": 1,
-		"timeRangeEnd": 9223372036854775807,
-		"timeRangeStart": -1
-	},
-	"userProfileConditions": {
-		"tag87": "v2",
-		"tag26": "v1"
-	}
+  "eventCombinationConditions": [{
+    "cacheId": "001",
+    "eventConditionList": [{
+      "eventId": "C",
+      "eventProps": {},
+      "maxLimit": 999,
+      "minLimit": 1,
+      "timeRangeEnd": 9223372036854775807,
+      "timeRangeStart": -1
+    }],
+    "matchPattern": "(1)",
+    "maxLimit": 999,
+    "minLimit": 1,
+    "querySql": "SELECT\neventId\nfrom momo_detail\nwhere eventId = 'C'\nand deviceId = ? and timeStamp BETWEEN ? and ? ",
+    "sqlType": "ck",
+    "timeRangeEnd": 9223372036854775807,
+    "timeRangeStart": -1
+  }, {
+    "cacheId": "002",
+    "eventConditionList": [{
+      "eventId": "A",
+      "eventProps": {},
+      "maxLimit": 999,
+      "minLimit": 1,
+      "timeRangeEnd": 9223372036854775807,
+      "timeRangeStart": -1
+    }, {
+      "eventId": "C",
+      "eventProps": {},
+      "maxLimit": 999,
+      "minLimit": 1,
+      "timeRangeEnd": 9223372036854775807,
+      "timeRangeStart": -1
+    }, {
+      "eventId": "F",
+      "eventProps": {},
+      "maxLimit": 999,
+      "minLimit": 1,
+      "timeRangeEnd": 9223372036854775807,
+      "timeRangeStart": -1
+    }],
+    "matchPattern": "(1.*2.*3)",
+    "maxLimit": 999,
+    "minLimit": 1,
+    "querySql": "SELECT\neventId\nfrom momo_detail\nwhere deviceId = ?\nand timeStamp BETWEEN ? and ? \nand (\n(eventId = 'A')\nOR\n(eventId = 'C')\nOR\n(eventId = 'F')\n)",
+    "sqlType": "ck",
+    "timeRangeEnd": 9223372036854775807,
+    "timeRangeStart": -1
+  }],
+  "matchLimit": 0,
+  "ruleId": "rule_001",
+  "triggerEventCondition": {
+    "eventId": "K",
+    "eventProps": {
+      "p2": "v1"
+    },
+    "maxLimit": 999,
+    "minLimit": 1,
+    "timeRangeEnd": 9223372036854775807,
+    "timeRangeStart": -1
+  },
+  "userProfileConditions": {
+    "tag87": "v2",
+    "tag26": "v1"
+  }
 }

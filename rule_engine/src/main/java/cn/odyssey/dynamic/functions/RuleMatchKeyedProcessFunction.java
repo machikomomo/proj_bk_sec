@@ -29,7 +29,7 @@ public class RuleMatchKeyedProcessFunction extends KeyedProcessFunction<String, 
     @Override
     public void open(Configuration parameters) throws Exception {
         // flink里在open里构造
-        MarketingRule rule1 = RuleSimulatorNew.getRule();
+//        MarketingRule rule1 = RuleSimulatorNew.getRule();
 //        ruleList = Arrays.asList(rule1);
         ruleList = RuleSimulatorFromJson.getRule();
         listState = getRuntimeContext().getListState(StateDescContainer.getLogBeansDesc());

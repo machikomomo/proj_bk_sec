@@ -40,7 +40,7 @@
 
 - 上述设计思想的实现，在代码上做了javaweb开发中经典的三层架构，controller、service、dao。
 
-![代码架构](/Users/momochan/chapter0/vm/doit_flink/proj_bk_sec/png/代码架构.png)
+![代码架构](pic/代码架构.png)
 
 
 
@@ -52,7 +52,7 @@
 
 2、用户画像数据
 
-![数据模拟生成及flink程序](/Users/momochan/chapter0/vm/doit_flink/proj_bk_sec/png/数据模拟生成及flink程序.png)
+![数据模拟生成及flink程序](pic/数据模拟生成及flink程序.png)
 
 
 
@@ -62,13 +62,13 @@
 
 ### 1、核心计算流程的入口是flink的keyed process function
 
-![KeyedProcessFunction](/Users/momochan/chapter0/vm/doit_flink/proj_bk_sec/png/KeyedProcessFunction.png)
+![KeyedProcessFunction](pic/KeyedProcessFunction.png)
 
 
 
 ### 2、三层架构，controller、service、dao
 
-![controller和service层](/Users/momochan/chapter0/vm/doit_flink/proj_bk_sec/png/controller和service层.png)
+![controller和service层](pic/controller和service层.png)
 
 
 
@@ -80,11 +80,11 @@
 
 ### 4、DAO层实现细节ClickhouseQuery
 
-![clickhouseQuery](/Users/momochan/chapter0/vm/doit_flink/proj_bk_sec/png/clickhouseQuery.png)
+![clickhouseQuery](pic/clickhouseQuery.png)
 
 
 
 ### 5、DAO层实现细节StateQuery
 
-![stateQuery](/Users/momochan/chapter0/vm/doit_flink/proj_bk_sec/png/stateQuery.png)
+![stateQuery](pic/stateQuery.png)
 

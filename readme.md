@@ -74,7 +74,7 @@
 
 ### 3、DAO层实现细节HbaseQuery
 
-<img src="/Users/momochan/chapter0/vm/doit_flink/proj_bk_sec/png/hbaseQuery.png" alt="hbaseQuery" style="zoom:50%;" />
+![hbaseQuery](pic/hbaseQuery.png)
 
 
 

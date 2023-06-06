@@ -26,8 +26,8 @@ public class MarketingRule {
 
     // 行为组合条件list
     private List<EventCombinationCondition> eventCombinationConditions;
-
-    // 规则匹配推送次数限制
-    private int matchLimit;
+//
+//    // 规则匹配推送次数限制
+//    private int matchLimit;
 
 }

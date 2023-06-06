@@ -88,3 +88,8 @@
 
 ![stateQuery](pic/stateQuery.png)
 
+
+
+# 规则抽象
+
+![规则抽象](pic/规则抽象.png)

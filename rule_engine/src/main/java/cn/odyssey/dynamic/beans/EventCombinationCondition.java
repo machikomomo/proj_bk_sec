@@ -40,6 +40,6 @@ public class EventCombinationCondition {
     // sql语句
     private String querySql;
 
-    // 条件缓存id 每个事件条件都带一个缓存id 也叫条件id
-    private String cacheId;
+//    // 条件缓存id 每个事件条件都带一个缓存id 也叫条件id
+//    private String cacheId;
 }

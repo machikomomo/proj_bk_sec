@@ -19,7 +19,7 @@ public class RuleSimulatorNew {
         // 触发条件 注意：该条件只需要关心eventId和properties
         Map<String, String> map1 = new HashMap<>();
         map1.put("p2", "v1");
-        EventCondition triggerEvent = new EventCondition("K", map1, -1, Long.MAX_VALUE, 1, 999);
+        EventCondition triggerEvent = new EventCondition("K", map1);
         ruleConditions.setTriggerEventCondition(triggerEvent);
 
         // 用户画像条件 map
@@ -42,8 +42,8 @@ public class RuleSimulatorNew {
                 "where eventId = 'C'\n" +
                 "and deviceId = ? and timeStamp BETWEEN ? and ? ";
         String rPattern1 = "(1)";
-        EventCondition e = new EventCondition(eventId, map3, startTime, endTime, 1, 999);
-        EventCombinationCondition eventGroupParam = new EventCombinationCondition(startTime, endTime, 1, 999, Arrays.asList(e), rPattern1, "ck", sql1, "001");
+        EventCondition e = new EventCondition(eventId, map3);
+        EventCombinationCondition eventGroupParam = new EventCombinationCondition(startTime, endTime, 1, 999, Arrays.asList(e), rPattern1, "ck", sql1);
 
         // 多个行为条件组合 某个时间段某个事件发生
 
@@ -52,15 +52,15 @@ public class RuleSimulatorNew {
         String eventId1 = "A";
         Map<String, String> props1 = new HashMap<>();
 //        props1.put("p8", "v1");
-        EventCondition e1 = new EventCondition(eventId1, props1, st, ed, 1, 999);
+        EventCondition e1 = new EventCondition(eventId1, props1);
         String eventId2 = "C";
         Map<String, String> props2 = new HashMap<>();
 //        props2.put("p7", "v1");
-        EventCondition e2 = new EventCondition(eventId2, props2, st, ed, 1, 999);
+        EventCondition e2 = new EventCondition(eventId2, props2);
         String eventId3 = "F";
         Map<String, String> props3 = new HashMap<>();
 //        props3.put("p6", "v1");
-        EventCondition e3 = new EventCondition(eventId3, props3, st, ed, 1, 999);
+        EventCondition e3 = new EventCondition(eventId3, props3);
 
         // 本来过滤的时候匹配事件是要带属性的，这里为了提高命中率就不带了
         String sql2 = "SELECT\n" +
@@ -76,7 +76,7 @@ public class RuleSimulatorNew {
                 "(eventId = 'F')\n" +
                 ")";
         String rPattern2 = "(1.*2.*3)";
-        EventCombinationCondition eventGroupParam2 = new EventCombinationCondition(st, ed, 1, 999, Arrays.asList(e1, e2, e3), rPattern2, "ck", sql2, "002");
+        EventCombinationCondition eventGroupParam2 = new EventCombinationCondition(st, ed, 1, 999, Arrays.asList(e1, e2, e3), rPattern2, "ck", sql2);
 
         ruleConditions.setEventCombinationConditions(Arrays.asList(eventGroupParam, eventGroupParam2));
 

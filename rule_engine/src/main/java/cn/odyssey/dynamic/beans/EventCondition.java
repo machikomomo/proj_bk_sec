@@ -16,8 +16,8 @@ import java.util.Map;
 public class EventCondition {
     private String eventId;
     private Map<String, String> eventProps;
-    private long timeRangeStart;
-    private long timeRangeEnd;
-    private int minLimit;
-    private int maxLimit;
+//    private long timeRangeStart;
+//    private long timeRangeEnd;
+//    private int minLimit;
+//    private int maxLimit;
 }

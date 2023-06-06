@@ -1,13 +1,8 @@
 {
   "eventCombinationConditions": [{
-    "cacheId": "001",
     "eventConditionList": [{
       "eventId": "C",
-      "eventProps": {},
-      "maxLimit": 999,
-      "minLimit": 1,
-      "timeRangeEnd": 9223372036854775807,
-      "timeRangeStart": -1
+      "eventProps": {}
     }],
     "matchPattern": "(1)",
     "maxLimit": 999,
@@ -17,28 +12,15 @@
     "timeRangeEnd": 9223372036854775807,
     "timeRangeStart": -1
   }, {
-    "cacheId": "002",
     "eventConditionList": [{
       "eventId": "A",
-      "eventProps": {},
-      "maxLimit": 999,
-      "minLimit": 1,
-      "timeRangeEnd": 9223372036854775807,
-      "timeRangeStart": -1
+      "eventProps": {}
     }, {
       "eventId": "C",
-      "eventProps": {},
-      "maxLimit": 999,
-      "minLimit": 1,
-      "timeRangeEnd": 9223372036854775807,
-      "timeRangeStart": -1
+      "eventProps": {}
     }, {
       "eventId": "F",
-      "eventProps": {},
-      "maxLimit": 999,
-      "minLimit": 1,
-      "timeRangeEnd": 9223372036854775807,
-      "timeRangeStart": -1
+      "eventProps": {}
     }],
     "matchPattern": "(1.*2.*3)",
     "maxLimit": 999,
@@ -48,17 +30,12 @@
     "timeRangeEnd": 9223372036854775807,
     "timeRangeStart": -1
   }],
-  "matchLimit": 0,
   "ruleId": "rule_001",
   "triggerEventCondition": {
     "eventId": "K",
     "eventProps": {
       "p2": "v1"
-    },
-    "maxLimit": 999,
-    "minLimit": 1,
-    "timeRangeEnd": 9223372036854775807,
-    "timeRangeStart": -1
+    }
   },
   "userProfileConditions": {
     "tag87": "v2",

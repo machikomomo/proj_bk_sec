@@ -1,0 +1,18 @@
+package cn.odyssey.rules;
+import cn.odyssey.fact.flink_demo.DataBean
+import org.apache.commons.lang3.StringUtils
+
+rule "demo3"
+no-loop true
+
+    when
+        $d:DataBean()
+    then
+        String data = $d.getData();
+        if (StringUtils.isNumeric(data)){
+            double v = Double.parseDouble(data);
+            $d.setRes(v*100+"");
+        }else {
+            $d.setRes(data.toUpperCase());
+        }
+end

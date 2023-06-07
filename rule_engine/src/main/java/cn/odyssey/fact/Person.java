@@ -1,4 +1,4 @@
-package cn.odyssey.demo;
+package cn.odyssey.fact;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,19 +1,17 @@
-package rules;
-import cn.odyssey.demo.flink_drools.DataBean
-import org.apache.commons.lang3.StringUtils
+package cn.odyssey.rules;
+
+import cn.odyssey.fact.Person
+import cn.odyssey.fact.Cat
 
 rule "demo1"
-no-loop true
-
     when
-        $b:DataBean()
+        $p:Person(job=="manager" && nickNames contains "jack")
     then
-        String data = $b.getData();
-        boolean numeric = StringUtils.isNumeric(data);
-        if (numeric){
-            double v = Double.parseDouble(data);
-            $b.setRes(v*100+"");
-        }else {
-            $b.setRes($b.getData().toUpperCase());
+        System.out.println("hello! "+$p.getName());
+        if ($p.getAge() < 24) {
+            System.out.println($p.getName()+"你的年龄才"+$p.getAge()+"岁啊！");
+            $p.setAge($p.getAge()+10);
+            update($p);
+            System.out.println("但是没关系哈，10年后你就"+$p.getAge()+"岁了！");
         }
 end

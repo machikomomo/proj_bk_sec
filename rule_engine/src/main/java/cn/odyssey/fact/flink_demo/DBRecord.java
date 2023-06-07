@@ -1,4 +1,4 @@
-package cn.odyssey.demo.flink_drools;
+package cn.odyssey.fact.flink_demo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

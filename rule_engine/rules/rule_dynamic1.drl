@@ -1,0 +1,47 @@
+import cn.odyssey.dynamic.beans.RuleControllerFact
+import cn.odyssey.dynamic.beans.MarketingRule
+import cn.odyssey.dynamic.beans.EventCondition
+import cn.odyssey.dynamic.beans.LogBean
+import cn.odyssey.dynamic.utils.EventUtil
+import java.util.Map
+import cn.odyssey.dynamic.beans.EventCombinationCondition
+import java.util.List
+import cn.odyssey.dynamic.service.TriggerModelRuleMatchServiceImpl
+
+rule "rule_dynamic1"
+
+when
+    $f:RuleControllerFact()
+then
+    MarketingRule marketingRule = $f.getMarketingRule();
+    LogBean logBean = $f.getLogBean();
+    TriggerModelRuleMatchServiceImpl triggerModelRuleMatchService = $f.getTriggerModelRuleMatchService();
+
+    // 就是之前controller里 方法 boolean ruleIsMatch(MarketingRule marketingRule, LogBean logBean)做的事情
+    // 触发条件是否匹配
+    EventCondition triggerEventCondition = marketingRule.getTriggerEventCondition();
+    if (EventUtil.eventMatchCondition(triggerEventCondition, logBean)) {
+        // 用户画像条件是否匹配
+        Map<String, String> userProfileConditions = marketingRule.getUserProfileConditions();
+        if (userProfileConditions != null && userProfileConditions.size() > 0) {
+            boolean profileRes = triggerModelRuleMatchService.matchProfileCondition(logBean.getDeviceId(), userProfileConditions);
+            if (profileRes) {
+                // 行为组合条件是否匹配
+                List<EventCombinationCondition> eventCombinationConditions = marketingRule.getEventCombinationConditions();
+                if (eventCombinationConditions != null && eventCombinationConditions.size() > 0) {
+                    boolean flag = true;
+                    for (EventCombinationCondition eventCombinationCondition : eventCombinationConditions) {
+                        boolean b = triggerModelRuleMatchService.matchEventCombinationCondition(eventCombinationCondition, logBean);
+                        if (!b) {
+                            flag = false;
+                        }
+                    }
+                    if (flag){
+                        $f.setMatchResult(true);
+                    }
+                }
+            }
+        }
+    }
+
+end

@@ -1,0 +1,13 @@
+package cn.odyssey.rules;
+import cn.odyssey.fact.flink_demo.DataBean
+import org.apache.commons.lang3.StringUtils
+
+rule "demo4"
+no-loop true
+
+    when
+        $d:DataBean()
+    then
+        String data = $d.getData();
+        $d.setRes(data.toUpperCase()+" 厉害厉害");
+end
